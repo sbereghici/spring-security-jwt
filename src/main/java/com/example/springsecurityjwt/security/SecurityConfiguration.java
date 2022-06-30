@@ -21,19 +21,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((auth) -> {
-                            try {
-                                auth
-                                        .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                                        .anyRequest()
-                                        .authenticated()
-                                        .and()
-                                        .httpBasic();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                );
+                .authorizeRequests()
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
         return http.build();
     }
 
