@@ -3,6 +3,7 @@ package com.example.springsecurityjwt.security;
 import com.example.springsecurityjwt.auth.ApplicationUserDetailsService;
 import com.example.springsecurityjwt.jwt.JwtAuthenticationFilter;
 import com.example.springsecurityjwt.jwt.JwtConfiguration;
+import com.example.springsecurityjwt.jwt.JwtTokenVerifierFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.crypto.SecretKey;
 
 @Configuration
 @EnableWebSecurity
@@ -29,16 +32,18 @@ public class SecurityConfiguration {
     private AuthenticationConfiguration authenticationConfiguration;
     @Autowired
     private JwtConfiguration jwtConfiguration;
+    @Autowired
+    private SecretKey jwtSecretKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), jwtConfiguration))
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), jwtConfiguration, jwtSecretKey))
+                .addFilterAfter(new JwtTokenVerifierFilter(jwtConfiguration, jwtSecretKey), JwtAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .anyRequest()
-                .authenticated();
+                .anyRequest().authenticated();
         return http.build();
     }
 
