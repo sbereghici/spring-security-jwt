@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationUserDetailsService implements UserDetailsService {
     @Autowired
-    @Qualifier("in-memory-auth")
+    @Qualifier("jdbc-auth")
     private ApplicationUserAccess applicationUserAccess;
 
     @Override

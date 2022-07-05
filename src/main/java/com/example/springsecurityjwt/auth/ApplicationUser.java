@@ -10,13 +10,13 @@ import java.util.Set;
 @Getter
 @Setter
 public class ApplicationUser implements UserDetails {
-    private final String username;
-    private final String password;
-    private final Set<? extends GrantedAuthority> authorities;
-    private final boolean isAccountNonExpired;
-    private final boolean isAccountNonLocked;
-    private final boolean isCredentialsNonExpired;
-    private final boolean isEnabled;
+    private String username;
+    private String password;
+    private Set<? extends GrantedAuthority> authorities;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
 
     public ApplicationUser(String username,
                            String password,
@@ -32,5 +32,12 @@ public class ApplicationUser implements UserDetails {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+    }
+
+    public ApplicationUser(String username, String password, boolean isEnabled, Set<? extends GrantedAuthority> authorities) {
+        this.username = username;
+        this.password = password;
+        this.isEnabled = isEnabled;
+        this.authorities = authorities;
     }
 }
