@@ -2,24 +2,22 @@ package com.example.springsecurityjwt.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
-@Repository("in-memory")
+@Repository("in-memory-auth")
 public class InMemoryUserAccessService implements ApplicationUserAccess {
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private final List<UserDetails> usersList = new ArrayList<>();
 
     @PostConstruct
     private void init() {
-        usersList.add(new ApplicationUser(
+        inMemoryUserDetailsManager.createUser(new ApplicationUser(
                 "bereghicidev",
                 passwordEncoder.encode("test1234"),
                 new HashSet<>(),
@@ -32,13 +30,6 @@ public class InMemoryUserAccessService implements ApplicationUserAccess {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return usersList.stream()
-                .filter(it -> it
-                        .getUsername()
-                        .equals(username))
-                .findFirst()
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(String.format("Username %s not found", username))
-                );
+        return inMemoryUserDetailsManager.loadUserByUsername(username);
     }
 }
