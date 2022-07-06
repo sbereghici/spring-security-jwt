@@ -23,7 +23,6 @@ import javax.crypto.SecretKey;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
     @Autowired
-    @Qualifier("default")
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ApplicationUserDetailsService applicationUserDetailsService;

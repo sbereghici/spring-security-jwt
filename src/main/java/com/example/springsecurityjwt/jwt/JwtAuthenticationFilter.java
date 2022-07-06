@@ -21,7 +21,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final JwtConfiguration jwtConfiguration;
     private final SecretKey jwtSecretKey;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfiguration jwtConfiguration, SecretKey jwtSecretKey) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfiguration jwtConfiguration,
+                                   SecretKey jwtSecretKey) {
         super(authenticationManager);
         this.jwtConfiguration = jwtConfiguration;
         this.jwtSecretKey = jwtSecretKey;

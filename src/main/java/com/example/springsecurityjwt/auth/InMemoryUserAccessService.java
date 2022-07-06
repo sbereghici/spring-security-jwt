@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 
-@Repository("in-memory-auth")
+@Service("in-memory-auth")
 public class InMemoryUserAccessService implements ApplicationUserAccess {
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
 
     @PostConstruct
     private void init() {
